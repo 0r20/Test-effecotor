@@ -1,13 +1,14 @@
-import styles from "../styles/Home.module.css";
-
-interface IUser {
-  name: string;
-}
+import { Button } from '@/components/button';
+import Head from 'next/head';
 
 export default function Home() {
   return (
-    <div className={styles.container}>
-      <h1>Home</h1>
+    <div>
+      <Head>
+        <title>Название</title>
+      </Head>
+      <h1>Заголовок</h1>
+      <Button>Кнопка</Button>
     </div>
   );
 }
