@@ -2,9 +2,11 @@ import Head from 'next/head';
 import nprogress from 'nprogress/nprogress.css';
 import Router from 'next/router';
 import NProgress from 'nprogress';
-import App, { AppContext, AppProps } from 'next/app';
 import emotionReset from 'emotion-reset';
 import { Global, css } from '@emotion/react';
+import { Provider as EffectorProvider } from 'effector-react/ssr';
+import { fork, serialize } from 'effector/fork';
+import root from '@/models/root';
 
 NProgress.configure({
   showSpinner: false,
@@ -15,7 +17,42 @@ Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
+const isBrowser = () => typeof window !== 'undefined';
+
+let currentScope;
+let scope;
+
+function serializeDiff(root, scope) {
+  const ignore = [];
+  for (const store of root.history.stores) {
+    let needIgnore = true;
+    try {
+      needIgnore = scope.getState(store) === store.defaultState;
+    } catch (err) {}
+    if (needIgnore) {
+      ignore.push(store);
+    }
+  }
+  return serialize(scope, { ignore });
+}
+
+export default function App({ Component, pageProps }) {
+  if (isBrowser()) {
+    if (currentScope) {
+      scope = fork(root, {
+        values: {
+          ...pageProps.store,
+          ...serializeDiff(root, currentScope),
+        },
+      });
+    } else {
+      scope = fork(root, { values: pageProps.store });
+    }
+    currentScope = scope;
+  } else {
+    scope = fork(root, { values: pageProps.store });
+  }
+
   return (
     <>
       <Head>
@@ -29,20 +66,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           }
         `}
       />
-      <Component {...pageProps} />
+      <EffectorProvider value={scope}>
+        <Component {...pageProps} />
+      </EffectorProvider>
     </>
   );
-};
-
-MyApp.getInitialProps = async (AppContext: AppContext) => {
-  const { Component } = AppContext;
-  const appProps = Component.getInitialProps
-    ? await App.getInitialProps(AppContext)
-    : {};
-
-  return {
-    ...appProps,
-  };
-};
-
-export default MyApp;
+}
