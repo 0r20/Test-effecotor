@@ -10,5 +10,14 @@ module.exports = {
 			},
 		],
 	],
-	plugins: ["@emotion/babel-plugin"],
+	plugins: [
+		"@emotion/babel-plugin",
+		[
+			"effector/babel-plugin",
+			{
+				"addLoc": true,
+				"reactSsr": true
+			}
+		]
+	],
 };

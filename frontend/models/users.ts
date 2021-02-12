@@ -1,11 +1,11 @@
 import { IUser } from './../utils/types/user';
-import root from './root';
+import app from "./app";
 
-export const $users = root.createStore<IUser[]>([
-  { id: 1, name: "John" }
+export const $users = app.createStore<IUser[]>([
+  { id: 1, name: "Bar" }
 ]);
 
-export const update = root.createEvent<IUser>();
+export const update = app.createEvent<IUser>();
 
 const updateStore = (state: IUser[], data: IUser) => {
   const userIndex = state.findIndex((user) => user.id === data.id);
@@ -21,3 +21,4 @@ const updateStore = (state: IUser[], data: IUser) => {
 
 $users
   .on(update, updateStore);
+

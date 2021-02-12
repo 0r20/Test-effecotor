@@ -1,29 +1,18 @@
-import Head from 'next/head';
-import { useList, useStore } from 'effector-react';
+import { useEvent, useStore, useList } from 'effector-react/ssr';
 import { $users, update } from '@/models/users';
 import { Button, Container, Inner } from '@/utils/styles';
 import { allSettled, fork, serialize } from 'effector';
 import { $ssrData, getSSRDataExampleFx } from '@/models/ssr-data-example';
-import root from '@/models/root';
-
-export const getServerSideProps = async (ctx) => {
-  const scope = fork(root);
-  await allSettled(getSSRDataExampleFx, { scope });
-
-  return {
-    props: {
-      store: serialize(scope),
-    },
-  };
-};
+import appDomain from '@/models/app';
 
 export default function Home() {
   const ssrData = useStore($ssrData);
+  const updateEvent = useEvent(update);
 
   const handleClick = () => {
-    update({
+    updateEvent({
       id: 10,
-      name: 'Володя',
+      name: 'Foo',
     });
   };
 
@@ -36,12 +25,20 @@ export default function Home() {
 
   return (
     <Container>
-      <Head>
-        <title>Название</title>
-      </Head>
       <h1>{JSON.stringify(ssrData, null, '  ')}</h1>
       <Inner>{renderUsers}</Inner>
       <Button onClick={handleClick}>Добавить</Button>
     </Container>
   );
 }
+
+export const getServerSideProps = async (ctx) => {
+  const scope = fork(appDomain);
+  await allSettled(getSSRDataExampleFx, { scope });
+
+  return {
+    props: {
+      initialState: serialize(scope, { onlyChanges: true }),
+    },
+  };
+};

@@ -16,6 +16,7 @@
     "@emotion/styled": "^11.1.5",
     "@zeit/next-css": "^1.0.1",
     "effector": "^21.8.2",
+    "effector-logger": "^0.9.0",
     "effector-react": "^21.2.1",
     "emotion-reset": "^3.0.0",
     "next": "10.0.6",

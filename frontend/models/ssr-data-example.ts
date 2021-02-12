@@ -1,25 +1,21 @@
 import { getSSRDataExample } from "@/mock-server"
-import root from "./root";
+import app from "./app";
 
 interface IData {
   title: string
 }
 
-const $ssrData = root.createStore<IData>(Object({}))
+export const $ssrData = app.createStore<IData>(Object({}))
 
-const getSSRDataExampleFx = root.createEffect<void, any, Error>()
+export const getSSRDataExampleFx = app.createEffect<void, any, Error>()
 
 getSSRDataExampleFx.use(async () => {
   return getSSRDataExample();
 })
 
 $ssrData.on(getSSRDataExampleFx.doneData, (_, data) => data)
-
-$ssrData.watch(data => {
-  console.log('data', data);
+$ssrData.watch((_) => {
+  console.log(_)
 })
 
-export {
-  getSSRDataExampleFx,
-  $ssrData
-}
+
