@@ -1,14 +1,14 @@
 import nprogress from 'nprogress/nprogress.css';
 import Router from 'next/router';
 import NProgress from 'nprogress';
-import emotionReset from 'emotion-reset';
-import { Global, css } from '@emotion/react';
 import { Provider as EffectorProvider } from 'effector-react/ssr';
 import app from '@/models/app';
 import React from 'react';
 import Head from 'next/head';
 import { AppProps } from 'next/app';
-import { useScope } from '@/models/useScope';
+import { useScope } from '@/lib/effector-setup';
+import { Global } from '@emotion/react';
+import { globalStyles } from '@/globalStyles';
 
 NProgress.configure({
   showSpinner: false,
@@ -35,14 +35,7 @@ export default function MyApp(props: AppProps) {
           />
           <style dangerouslySetInnerHTML={{ __html: nprogress }} />
         </Head>
-        <Global
-          styles={css`
-            ${emotionReset}
-            *, *::after, *::before {
-              box-sizing: border-box;
-            }
-          `}
-        />
+        <Global styles={globalStyles} />
         <Component {...pageProps} />
       </React.Fragment>
     </EffectorProvider>

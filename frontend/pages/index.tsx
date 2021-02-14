@@ -1,6 +1,5 @@
 import { useEvent, useStore, useList } from 'effector-react/ssr';
 import { $users, update } from '@/models/users';
-import { Button, Container, Inner } from '@/utils/styles';
 import { allSettled, fork, serialize } from 'effector';
 import { $ssrData, getSSRDataExampleFx } from '@/models/ssr-data-example';
 import appDomain from '@/models/app';
@@ -24,11 +23,11 @@ export default function Home() {
   ));
 
   return (
-    <Container>
+    <div>
       <h1>{JSON.stringify(ssrData, null, '  ')}</h1>
-      <Inner>{renderUsers}</Inner>
-      <Button onClick={handleClick}>Добавить</Button>
-    </Container>
+      <div>{renderUsers}</div>
+      <button onClick={handleClick}>Добавить</button>
+    </div>
   );
 }
 
