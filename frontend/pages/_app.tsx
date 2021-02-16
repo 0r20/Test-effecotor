@@ -6,7 +6,7 @@ import app from '@/models/app';
 import React from 'react';
 import Head from 'next/head';
 import { AppProps } from 'next/app';
-import { useScope } from '@/lib/effector-setup';
+import { useLogger, useScope } from '@/lib/effector-setup';
 import { Global } from '@emotion/react';
 import { globalStyles } from '@/globalStyles';
 
@@ -23,6 +23,8 @@ export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
 
   const scope = useScope(app, pageProps.initialState);
+
+  useLogger(app);
 
   return (
     <EffectorProvider value={scope}>

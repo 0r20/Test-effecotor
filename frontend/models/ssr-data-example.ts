@@ -1,21 +1,40 @@
-import { getSSRDataExample } from "@/mock-server"
+import { userApi } from "@/api/user";
+import { createFetching, Fetching } from "@/lib/fetching";
+import { Effect, forward } from "effector";
 import app from "./app";
 
-interface IData {
-  title: string
+import { ParsedUrlQuery } from 'querystring';
+import { GetServerSidePropsContext } from 'next';
+
+interface IUser {
+  name: string;
 }
 
-export const $ssrData = app.createStore<IData>(Object({}))
+export const pageMounted = app.createEvent();
+export const addUser = app.createEvent<IUser>();
 
-export const getSSRDataExampleFx = app.createEffect<void, any, Error>()
+export const loadUsers: Effect<void, IUser[], Error> = app.createEffect();
+export const usersFetching: Fetching<IUser[], Error> = createFetching(
+  loadUsers,
+  "initial"
+);
 
-getSSRDataExampleFx.use(async () => {
-  return getSSRDataExample();
+forward({
+  from: pageMounted,
+  to: loadUsers
 })
 
-$ssrData.on(getSSRDataExampleFx.doneData, (_, data) => data)
-$ssrData.watch((_) => {
-  console.log(_)
-})
+export const $users = app.createStore<IUser[]>([]);
+
+loadUsers.use(() => userApi.getAll());
+
+$users
+  .on(loadUsers.done, (users, { result }) => [...users, ...result])
+  .on(addUser, (users, user) => [...users, user])
+  .watch((_) => {
+    console.log(_)
+  })
+
+
 
 

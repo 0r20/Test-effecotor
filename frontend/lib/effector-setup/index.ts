@@ -1,5 +1,5 @@
 import { fork, serialize } from 'effector'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 
 let scope
 
@@ -23,4 +23,17 @@ export function useScope(domain, initialState) {
     domain,
     initialState,
   ])
+}
+
+export function useLogger(domain) {
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const attachLogger = require('effector-logger/attach').attachLogger;
+      attachLogger(domain, {
+        reduxDevtools: 'enabled',
+        console: 'enabled',
+        inspector: 'disabled',
+      });
+    }
+  }, []);
 }

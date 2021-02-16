@@ -6,7 +6,6 @@ export const globalStyles = css`
   
   body {
     font-family: "Alegreya Sans", "Open Sans", sans-serif;
-    height: 100vh;
     overflow: hidden;
     -webkit-font-smoothing: antialiased;
     display: flex;
@@ -16,7 +15,6 @@ export const globalStyles = css`
   }
 
   #__next {
-    height: 100vh;
     display: flex;
     flex-direction: row;
   }

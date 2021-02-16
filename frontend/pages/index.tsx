@@ -1,43 +1,65 @@
 import { useEvent, useStore, useList } from 'effector-react/ssr';
-import { $users, update } from '@/models/users';
 import { allSettled, fork, serialize } from 'effector';
-import { $ssrData, getSSRDataExampleFx } from '@/models/ssr-data-example';
+import {
+  $users,
+  addUser,
+  usersFetching,
+  pageMounted,
+} from '@/models/ssr-data-example';
 import appDomain from '@/models/app';
+import { useEffect } from 'react';
+import styled from '@emotion/styled';
 
 export default function Home() {
-  const ssrData = useStore($ssrData);
-  const updateEvent = useEvent(update);
+  const isLoading = useStore(usersFetching.isLoading);
+  const isFailed = useStore(usersFetching.isFailed);
+  const error = useStore(usersFetching.error);
+  const addUserEvent = useEvent(addUser);
+  const pageMountedEvent = useEvent(pageMounted);
 
-  const handleClick = () => {
-    updateEvent({
-      id: 10,
-      name: 'Foo',
-    });
-  };
+  // useEffect(() => {
+  //   pageMountedEvent();
+  // }, []);
 
-  const renderUsers = useList($users, (user) => (
-    <div key={user.id}>
+  const renderUsers = useList($users, (user, idx) => (
+    <div key={idx}>
       <h1>Name: {user.name}</h1>
-      <span>Id: {user.id}</span>
+      <span>Id: {idx}</span>
     </div>
   ));
 
+  if (isLoading) {
+    return <p>Загрузка...</p>;
+  }
+
+  if (isFailed) {
+    return <p>{error.message}</p>;
+  }
+
   return (
-    <div>
-      <h1>{JSON.stringify(ssrData, null, '  ')}</h1>
+    <Container>
       <div>{renderUsers}</div>
-      <button onClick={handleClick}>Добавить</button>
-    </div>
+      <button onClick={() => addUserEvent({ name: 'FromClick' })}>Add</button>
+      <button onClick={() => pageMountedEvent()}>Mounted</button>
+    </Container>
   );
 }
 
 export const getServerSideProps = async (ctx) => {
   const scope = fork(appDomain);
-  await allSettled(getSSRDataExampleFx, { scope });
-
+  // await allSettled(loadUsers, { scope });
   return {
     props: {
       initialState: serialize(scope, { onlyChanges: true }),
     },
   };
 };
+
+const Container = styled.div`
+  min-height: 100vh;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
