@@ -33,9 +33,10 @@ const login = (data: LoginData) => {
 }
 
 const activate = (token: string) => {
-  return request("POST", '/api/activate/', {
+  const req = request("POST", '/api/activate/', {
     token
   });
+  return req
 }
 
 const getInfo = () => {
