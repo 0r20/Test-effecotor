@@ -1,5 +1,5 @@
-import { IUser } from './../utils/types/user';
-import app from "./app";
+import { app } from '../features/common';
+import { IUser } from '../types/user';
 
 export const $users = app.createStore<IUser[]>([
   { id: 1, name: "Bar" }

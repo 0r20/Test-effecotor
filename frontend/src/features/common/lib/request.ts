@@ -1,19 +1,19 @@
-import axios, { AxiosPromise } from "axios";
+
+import axios from "axios";
 import cookies from 'next-cookies';
 import Cookie from 'js-cookie';
 
 import { ParsedUrlQuery } from 'querystring';
-import { GetServerSidePropsContext } from 'next';
-import { IUser } from "@/utils/types/user";
+import { GetServerSidePropsContext } from 'next'
 
 type Method = "GET" | "POST" | "PATCH" | "PUT" | "DELETE";
 
 const instance = axios.create({
   // baseURL: process.env.DB_HOST,
-  baseURL: "http://localhost:3000",
+  baseURL: "http://localhost:8000",
 })
 
-const request = <T,>(method: Method, url: string, data: any = {}, ctx?: GetServerSidePropsContext<ParsedUrlQuery> | void) => {
+export const request = <T,>(method: Method, url: string, data: any = {}, ctx?: GetServerSidePropsContext<ParsedUrlQuery> | void) => {
   let token;
   if (ctx) {
     token = cookies(ctx)?.token;
@@ -38,12 +38,4 @@ const request = <T,>(method: Method, url: string, data: any = {}, ctx?: GetServe
       reject(err);
     })
   })
-}
-
-const getAll = () => {
-  return request<IUser[]>("GET", '/api/test/');
-}
-
-export const userApi = {
-  getAll
 }

@@ -2,13 +2,14 @@ import nprogress from 'nprogress/nprogress.css';
 import Router from 'next/router';
 import NProgress from 'nprogress';
 import { Provider as EffectorProvider } from 'effector-react/ssr';
-import app from '@/models/app';
+import { app } from '@/src/features/common';
 import React from 'react';
 import Head from 'next/head';
 import { AppProps } from 'next/app';
-import { useLogger, useScope } from '@/lib/effector-setup';
+import { useLogger, useScope } from '@/src/lib/effector-setup';
 import { Global } from '@emotion/react';
 import { globalStyles } from '@/globalStyles';
+import antd from 'antd/dist/antd.min.css';
 
 NProgress.configure({
   showSpinner: false,
@@ -36,6 +37,7 @@ export default function MyApp(props: AppProps) {
             content="minimum-scale=1, initial-scale=1, width=device-width"
           />
           <style dangerouslySetInnerHTML={{ __html: nprogress }} />
+          <style dangerouslySetInnerHTML={{ __html: antd }} />
         </Head>
         <Global styles={globalStyles} />
         <Component {...pageProps} />
