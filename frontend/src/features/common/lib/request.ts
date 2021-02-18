@@ -1,10 +1,5 @@
-
 import axios from "axios";
-import cookies from 'next-cookies';
-import Cookie from 'js-cookie';
-
-import { ParsedUrlQuery } from 'querystring';
-import { GetServerSidePropsContext } from 'next'
+import { $token } from '@/src/features/common'
 
 type Method = "GET" | "POST" | "PATCH" | "PUT" | "DELETE";
 
@@ -13,14 +8,8 @@ const instance = axios.create({
   baseURL: "http://localhost:8000",
 })
 
-export const request = <T,>(method: Method, url: string, data: any = {}, ctx?: GetServerSidePropsContext<ParsedUrlQuery> | void) => {
-  let token;
-  if (ctx) {
-    token = cookies(ctx)?.token;
-  } else {
-    token = Cookie.get('token');
-  }
-
+export const request = <T,>(method: Method, url: string, data: any = {}) => {
+  const token = $token.getState()
   const headers = token ? {
     'Content-Type': 'application/json',
     Authorization: `Token ${token}`

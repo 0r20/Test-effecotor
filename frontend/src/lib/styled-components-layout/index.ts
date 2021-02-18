@@ -78,7 +78,7 @@ export const Row = styled.div<Props>`
   ${(p) =>
     p.gap &&
     css`
-      & > :not(:first-child) {
+      & > :not(:first-of-type) {
         margin-left: ${p.gap};
       }
     `}
@@ -92,7 +92,7 @@ export const Col = styled.div<Props>`
   ${(p) =>
     p.gap &&
     css`
-      & > :not(:first-child) {
+      & > :not(:first-of-type) {
         margin-top: ${p.gap};
       }
     `}

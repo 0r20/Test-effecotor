@@ -5,16 +5,15 @@ import { Container } from '@/src/ui/organisms';
 import { Col, Row } from '@/src/lib/styled-components-layout';
 import { loginValidate } from '@/src/features/common';
 import { Box, H3, Button, Link } from '@/src/ui/atoms';
-import { loginProccesing } from './model';
+import { formSubmitted } from './model';
+import { useEvent } from 'effector-react/ssr';
 
 export const LoginContainer = () => {
-  const handleSubmit = (values: LoginFormValues) => {
-    loginProccesing(values);
-  };
+  const formSubmittedEvent = useEvent(formSubmitted);
 
   return (
     <Container>
-      <LoginForm onSubmit={handleSubmit} />
+      <LoginForm onSubmit={formSubmittedEvent} />
     </Container>
   );
 };

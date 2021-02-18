@@ -1,15 +1,16 @@
-import { useEvent, useStore, useList } from 'effector-react/ssr';
+// import { useEvent, useStore, useList } from 'effector-react/ssr';
 import { allSettled, fork, serialize } from 'effector';
-import {
-  $users,
-  addUser,
-  usersFetching,
-  pageMounted,
-} from '@/src/models/ssr-data-example';
-import { useEffect } from 'react';
+// import {
+//   $users,
+//   addUser,
+//   usersFetching,
+//   pageMounted,
+// } from '@/src/models/ssr-data-example';
+// import { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { Row } from '@/src/lib/styled-components-layout';
 import { Box, H3, Link } from '@/src/ui/atoms';
+import NextLink from 'next/link';
 import { app } from '@/src/features/common';
 
 export default function Home() {
@@ -55,11 +56,11 @@ export default function Home() {
 }
 
 export const getServerSideProps = async (ctx) => {
-  // const scope = fork(app);
+  const scope = fork(app);
   // await allSettled(loadUsers, { scope });
   return {
     props: {
-      // initialState: serialize(scope, { onlyChanges: true }),
+      initialState: serialize(scope, { onlyChanges: true }),
     },
   };
 };

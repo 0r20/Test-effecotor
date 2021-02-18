@@ -1,4 +1,5 @@
 import { request } from '@/src/features/common'
+import { IUser } from '../types/user';
 
 export interface RegisterData {
   first_name: string;
@@ -33,14 +34,11 @@ const login = (data: LoginData) => {
 }
 
 const activate = (token: string) => {
-  const req = request("POST", '/api/activate/', {
-    token
-  });
-  return req
+  return request("POST", '/api/activate/', { token });
 }
 
 const getInfo = () => {
-  return request("GET", "/api/initiative/me/");
+  return request<IUser>("GET", "/api/initiative/me/");
 }
 
 export const accountApi = {
