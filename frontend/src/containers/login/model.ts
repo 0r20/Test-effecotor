@@ -5,6 +5,7 @@ import { LoginResponse } from '@/src/api/account';
 import { createFetching, Fetching } from '@/src/lib/fetching';
 import { accountApi } from '@/src/api/account';
 import { forward } from 'effector';
+import Router from 'next/router'
 
 export const formSubmitted = app.createEvent<LoginFormValues>();
 
@@ -23,4 +24,5 @@ loginProccesing.use((data) => accountApi.login(data));
 
 loginProccesing.done.watch(({ result: { access } }) => {
   tokenChanged(access);
+  Router.push({ pathname: '/cabinet' }, undefined, { shallow: false });
 });

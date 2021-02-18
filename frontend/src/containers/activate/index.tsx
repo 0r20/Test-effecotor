@@ -4,7 +4,7 @@ import { Container } from '@/src/ui/organisms';
 import { useStore, useEvent } from 'effector-react/ssr';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
-import { activateFetching, pageMounted } from './modal';
+import { activateFetching, pageMounted } from './model';
 
 export const ActivateContainer = () => {
   const { query } = useRouter();

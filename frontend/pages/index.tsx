@@ -10,8 +10,8 @@ import { allSettled, fork, serialize } from 'effector';
 import styled from '@emotion/styled';
 import { Row } from '@/src/lib/styled-components-layout';
 import { Box, H3, Link } from '@/src/ui/atoms';
-import NextLink from 'next/link';
-import { app } from '@/src/features/common';
+import { $token, app } from '@/src/features/common';
+import { loadUsers } from '@/src/models/ssr-data-example';
 
 export default function Home() {
   // const isLoading = useStore(usersFetching.isLoading);
@@ -36,7 +36,7 @@ export default function Home() {
   // }
 
   // if (isFailed) {
-  //   return <p>{error.message}</p>;
+  //   return <p>{error}</p>;
   // }
 
   return (
@@ -57,6 +57,9 @@ export default function Home() {
 
 export const getServerSideProps = async (ctx) => {
   const scope = fork(app);
+  // const scope = fork(app, {
+  //   values: new Map([[$token, ctx.req.headers.cookie]]),
+  // });
   // await allSettled(loadUsers, { scope });
   return {
     props: {
