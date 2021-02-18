@@ -1,5 +1,6 @@
-import { $session, $token, chechAuthState } from '@/src/features/common';
+import { $session, chechAuthState } from '@/src/features/common';
 import { logout } from '@/src/features/common';
+import { Col } from '@/src/lib/styled-components-layout';
 import { Box, Button, H3 } from '@/src/ui/atoms';
 import { Container } from '@/src/ui/organisms';
 import { useStore, useEvent } from 'effector-react/ssr';
@@ -14,15 +15,13 @@ export const CabinetContainer = () => {
     chechAuthStateEvent();
   }, []);
 
-  const logoutHandler = () => {
-    logoutEvent();
-  };
-
   return (
     <Container>
       <Box>
-        <H3>Вас зовут: {user?.name}</H3>
-        <Button onClick={logoutHandler}>Выйти</Button>
+        <Col align="center">
+          <H3 center>Вас зовут: {user?.name}</H3>
+          <Button onClick={() => logoutEvent()}>Выйти</Button>
+        </Col>
       </Box>
     </Container>
   );

@@ -40,7 +40,7 @@ interface RegisterFormProps {
 const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
   return (
     <Box>
-      <H3>Регистрация</H3>
+      <H3 center>Регистрация</H3>
       <Formik
         initialValues={{
           company: '',

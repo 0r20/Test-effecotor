@@ -10,6 +10,7 @@ import { useLogger, useScope } from '@/src/lib/effector-setup';
 import { Global } from '@emotion/react';
 import { globalStyles } from '@/globalStyles';
 import antd from 'antd/dist/antd.min.css';
+import { Alert } from '@/src/features/alert';
 
 NProgress.configure({
   showSpinner: false,
@@ -39,6 +40,7 @@ export default function MyApp(props: AppProps) {
           <style dangerouslySetInnerHTML={{ __html: nprogress }} />
           <style dangerouslySetInnerHTML={{ __html: antd }} />
         </Head>
+        <Alert />
         <Global styles={globalStyles} />
         <Component {...pageProps} />
       </React.Fragment>

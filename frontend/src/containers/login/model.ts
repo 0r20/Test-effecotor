@@ -6,6 +6,7 @@ import { createFetching, Fetching } from '@/src/lib/fetching';
 import { accountApi } from '@/src/api/account';
 import { forward } from 'effector';
 import Router from 'next/router'
+import { alertCalled } from '@/src/features/alert/model';
 
 export const formSubmitted = app.createEvent<LoginFormValues>();
 
@@ -24,5 +25,7 @@ loginProccesing.use((data) => accountApi.login(data));
 
 loginProccesing.done.watch(({ result: { access } }) => {
   tokenChanged(access);
+  alertCalled({ kind: 'success', label: 'Вы успешно вошли!' })
   Router.push({ pathname: '/cabinet' }, undefined, { shallow: false });
 });
+

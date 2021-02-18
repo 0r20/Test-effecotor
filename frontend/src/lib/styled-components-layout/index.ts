@@ -97,3 +97,7 @@ export const Col = styled.div<Props>`
       }
     `}
 `
+
+export const Box = styled.div`
+  ${mixins}
+`

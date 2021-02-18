@@ -30,7 +30,7 @@ interface LoginFormProps {
 const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
   return (
     <Box>
-      <H3>Логин</H3>
+      <H3 center>Логин</H3>
       <Formik
         initialValues={{
           email: '',
