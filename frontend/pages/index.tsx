@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { Row } from '@/src/lib/styled-components-layout';
 import { Box, H3, Link } from '@/src/ui/atoms';
 import { app } from '@/src/features/common';
+import { ensureAuth } from '@/src/features/common/lib/ensure';
 
 export default function Home() {
   return (
@@ -19,6 +20,7 @@ export default function Home() {
 }
 
 export const getServerSideProps = async (ctx) => {
+  ensureAuth(ctx, 'public');
   const scope = fork(app);
   return {
     props: {
