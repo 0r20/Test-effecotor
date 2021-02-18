@@ -11,9 +11,5 @@ export const $session = app.createStore<IUser>(null)
 loadSession.use(() => accountApi.getInfo())
 
 $session
-  .on(loadSession.done, (_, { result: user }) => {
-    console.log(user)
-    return user
-  })
-  .watch((session) => console.log(session))
+  .on(loadSession.done, (_, { result: user }) => user)
 
