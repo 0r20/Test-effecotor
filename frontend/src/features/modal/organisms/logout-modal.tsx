@@ -1,11 +1,17 @@
-import { Button } from '@/src/ui';
 import React from 'react';
+import { DefaultModal, DefaultModalProps } from '../molecules/default-modal';
 
-export const LogoutModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+interface LogoutModalProps extends DefaultModalProps {
+  onLogout: () => void;
+}
+
+export const LogoutModal: React.FC<LogoutModalProps> = ({
+  onClose,
+  onLogout,
+}) => {
   return (
-    <div>
-      Logout
-      <Button onClick={onClose}>Close</Button>
-    </div>
+    <DefaultModal title="Выход" onClose={onClose} onDelete={onLogout}>
+      Do you really want to leave?
+    </DefaultModal>
   );
 };

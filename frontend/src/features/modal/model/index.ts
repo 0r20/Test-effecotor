@@ -7,13 +7,13 @@ interface ModalType {
   props: any;
 }
 
-export const modelOpened = app.createEvent<ModalType>()
-export const modelClosed = app.createEvent<void>()
+export const modalOpened = app.createEvent<ModalType>()
+export const modalClosed = app.createEvent<void>()
 
 export const $modal = app.createStore<ModalType>({ kind: null, props: null })
 export const $modalKind = $modal.map(({ kind }) => kind)
 export const $modalProps = $modal.map(({ props }) => props)
 
 $modal
-  .on(modelOpened, (_, data) => data)
-  .reset(modelClosed)
+  .on(modalOpened, (_, data) => data)
+  .reset(modalClosed)

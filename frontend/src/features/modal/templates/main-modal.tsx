@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { Box } from '@/src/ui';
 import { LogoutModal } from '../organisms/logout-modal';
 import { useEvent, useStore } from 'effector-react/ssr';
-import { $modalKind, $modalProps, modelClosed } from '../model';
+import { $modalKind, $modalProps, modalClosed } from '../model';
 
 const modalComponents = {
   logout: LogoutModal,
@@ -12,7 +12,7 @@ const modalComponents = {
 export const MainModal = () => {
   const kind = useStore($modalKind);
   const props = useStore($modalProps);
-  const modelClosedEvent = useEvent(modelClosed);
+  const modalClosedEvent = useEvent(modalClosed);
 
   useEffect(() => {
     if (kind) {
@@ -33,8 +33,8 @@ export const MainModal = () => {
     <>
       <Popup>
         <Box>
-          <Close onClick={() => modelClosedEvent()} />
-          <SpecificModal {...props} onClose={modelClosedEvent} />
+          <Close onClick={() => modalClosedEvent()} />
+          <SpecificModal {...props} onClose={modalClosedEvent} />
         </Box>
       </Popup>
       <BackDrop />
@@ -54,11 +54,13 @@ export const Popup = styled.div`
   @media (max-width: 575.98px) {
     width: 90%;
     > div {
-      padding: 40px 10px !important;
+      padding: 40px 20px !important;
     }
   }
+  ${Box} {
+    flex: 1;
+  }
 `;
-
 export const Close = styled.div`
   position: absolute;
   height: 18px;
