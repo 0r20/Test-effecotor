@@ -8,6 +8,7 @@ export const H1 = styled.h1<{ center?: boolean }>`
   margin-top: 6rem;
   margin-bottom: 2rem;
   user-select: none;
+  font-family: Play;
 `;
 
 export const H2 = styled.h2<{ center?: boolean }>`
@@ -18,6 +19,7 @@ export const H2 = styled.h2<{ center?: boolean }>`
   margin-top: 5rem;
   margin-bottom: 1rem;
   user-select: none;
+  font-family: Play;
 `;
 
 export const H3 = styled.h3<{ center?: boolean }>`
@@ -28,4 +30,5 @@ export const H3 = styled.h3<{ center?: boolean }>`
   margin-top: 2rem;
   margin-bottom: 1rem;
   user-select: none;
+  font-family: Play;
 `;
