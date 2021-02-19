@@ -10,14 +10,14 @@ interface CallType {
 export const alertCalled = app.createEvent<CallType>();
 export const alertClosed = app.createEvent();
 
-export const $alertType = app.createStore<CallType>({
+const $alert = app.createStore<CallType>({
   kind: null,
   label: null
 });
 
-export const $alertKind = $alertType.map(({ kind }) => kind);
-export const $alertLabel = $alertType.map(({ label }) => label);
+export const $alertKind = $alert.map(({ kind }) => kind);
+export const $alertLabel = $alert.map(({ label }) => label);
 
-$alertType
+$alert
   .on(alertCalled, (_, data) => data)
   .reset(alertClosed)

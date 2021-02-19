@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
+import { keyframes } from '@emotion/react';
 import { useEvent, useStore } from 'effector-react/ssr';
 import { $alertKind, $alertLabel, alertClosed } from '../model';
 import { Text } from '@/src/ui/atoms';
@@ -28,13 +29,6 @@ export const Alert = () => {
     </Wrapper>
   );
 };
-
-export const Wrapper = styled.div`
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  z-index: 100;
-`;
 
 export const Content = styled.div<{ kind }>`
   position: relative;
@@ -72,4 +66,23 @@ export const Close = styled.div`
     background-color: #fff;
     transform: rotate(-45deg);
   }
+`;
+
+const bounce = keyframes`
+  from {
+    left: -100px; 
+    opacity: 0;
+  }
+  to {
+    left: 20px; 
+    opacity: 1;
+  }
+`;
+
+export const Wrapper = styled.div`
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 100;
+  animation: ${bounce} 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 `;

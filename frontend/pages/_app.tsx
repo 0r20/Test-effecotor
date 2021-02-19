@@ -11,6 +11,7 @@ import { Global } from '@emotion/react';
 import { globalStyles } from '@/globalStyles';
 import antd from 'antd/dist/antd.min.css';
 import { Alert } from '@/src/features/alert';
+import { MainModal } from '@/src/features/modal';
 
 NProgress.configure({
   showSpinner: false,
@@ -41,6 +42,7 @@ export default function MyApp(props: AppProps) {
           <style dangerouslySetInnerHTML={{ __html: antd }} />
         </Head>
         <Alert />
+        <MainModal />
         <Global styles={globalStyles} />
         <Component {...pageProps} />
       </React.Fragment>
