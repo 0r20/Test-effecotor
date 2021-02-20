@@ -1,64 +1,116 @@
-import React from 'react';
-import { Formik, Form, FormikProps } from 'formik';
-import { Input } from '@/src/ui/molecules/input';
+import React, { FormEvent, InputHTMLAttributes, useMemo } from 'react';
+// import { Input } from '@/src/ui/molecules/input';
 import { Container } from '@/src/ui/organisms';
 import { Col, Row } from '@/src/lib/styled-components-layout';
-import { loginValidate } from '@/src/features/common';
 import { Box, H3, Button, Link } from '@/src/ui/atoms';
-import { formSubmitted } from './model';
-import { useEvent } from 'effector-react/ssr';
+import { loginFetching, loginForm } from './model';
+import { useStore } from 'effector-react/ssr';
+import { useField, useForm } from 'effector-forms';
+import styled from '@emotion/styled';
+import { Field } from 'effector-forms/dist/types';
 
 export const LoginContainer = () => {
-  const formSubmittedEvent = useEvent(formSubmitted);
+  const { submit, eachValid, isDirty } = useForm(loginForm);
+  const isLoading = useStore(loginFetching.isLoading);
+
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    submit();
+  };
 
   return (
     <Container>
-      <LoginForm onSubmit={formSubmittedEvent} />
+      <Box>
+        <H3 center>Логин</H3>
+        <form onSubmit={onSubmit}>
+          <Col align="center">
+            <Input
+              field={loginForm.fields.email}
+              type="email"
+              placeholder="Введите Email"
+            />
+            <Input
+              field={loginForm.fields.password}
+              type="password"
+              placeholder="Введите пароль"
+            />
+            <Button
+              type="submit"
+              disabled={isLoading || !eachValid || !isDirty}
+            >
+              Войти
+            </Button>
+            <Row justify="center" mt="30px">
+              <Link href="/register">Зарегистрироваться</Link>
+            </Row>
+          </Col>
+        </form>
+      </Box>
     </Container>
   );
 };
 
-export interface LoginFormValues {
-  email: string;
-  password: string;
-}
+type InputProps = InputHTMLAttributes<HTMLInputElement> & {
+  width?: string;
+  field: Field<any>;
+};
 
-interface LoginFormProps {
-  onSubmit: (values: LoginFormValues) => void;
-}
+const Input: React.FC<InputProps> = ({ width, field, ...props }) => {
+  const { value, onChange, isTouched, firstError, name } = useField(field);
 
-const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
+  const isShowError = useMemo(() => isTouched && !!firstError, [
+    isTouched,
+    firstError,
+  ]);
+
   return (
-    <Box>
-      <H3 center>Логин</H3>
-      <Formik
-        initialValues={{
-          email: '',
-          password: '',
-        }}
-        validationSchema={loginValidate}
-        onSubmit={async (values, { setSubmitting, resetForm }) => {
-          setSubmitting(true);
-          await onSubmit(values);
-          setSubmitting(false);
-          resetForm();
-        }}
-      >
-        {({ dirty, isValid }: FormikProps<LoginFormValues>) => (
-          <Form>
-            <Col align="center">
-              <Input type="email" name="email" placeholder="E-mail" />
-              <Input type="password" name="password" placeholder="Пароль" />
-              <Button type="submit" disabled={!(dirty && isValid)}>
-                Подтвердить
-              </Button>
-              <Row justify="center" mt="30px">
-                <Link href="/register">Зарегистрироваться</Link>
-              </Row>
-            </Col>
-          </Form>
-        )}
-      </Formik>
-    </Box>
+    <Wrapper width={width}>
+      <Inner
+        {...props}
+        name={name}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        isShowError={isShowError}
+      />
+      {isShowError && <Error>{firstError}</Error>}
+    </Wrapper>
   );
 };
+
+export const Inner = styled.input<{ isShowError?: boolean }>`
+  border: 1px solid
+    ${({ isShowError }) => (isShowError ? 'red' : 'rgba(0, 0, 0, 0.1)')};
+  padding: 14px 23px;
+  background-color: #fff;
+  color: #000;
+  opacity: 1;
+  border-radius: 10px;
+  outline: none;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 15px;
+  ::placeholder {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 15px;
+    opacity: 0.5;
+  }
+`;
+
+export const Wrapper = styled.div<{ width?: string }>`
+  position: relative;
+  margin-bottom: 21px;
+  ${Inner} {
+    width: ${({ width }) => (width ? width : '218px')};
+  }
+`;
+
+export const Error = styled.small`
+  position: absolute;
+  bottom: -16px;
+  left: 0;
+  color: red;
+  font-size: 10px;
+`;

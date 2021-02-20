@@ -1,10 +1,5 @@
 import { object, string } from 'yup';
 
-export const loginValidate = object().shape({
-  email: string().email('Некорректный E-mail').required('Введите E-mail'),
-  password: string().required('Введите пароль'),
-});
-
 export const registerValidate = object().shape({
   company: string()
     .min(3, 'Слишком короткое предприятие')
