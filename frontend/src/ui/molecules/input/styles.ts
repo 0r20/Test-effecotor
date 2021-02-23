@@ -1,7 +1,8 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 
-export const Inner = styled.input <{ isError?: boolean }> `
-  border: 1px solid ${({ isError }) => isError ? 'red' : "rgba(0, 0, 0, 0.1)"};
+export const Inner = styled.input<{ isShowError?: boolean }>`
+  border: 1px solid
+    ${({ isShowError }) => (isShowError ? 'red' : 'rgba(0, 0, 0, 0.1)')};
   padding: 14px 23px;
   background-color: #fff;
   color: #000;
@@ -18,14 +19,14 @@ export const Inner = styled.input <{ isError?: boolean }> `
     font-size: 12px;
     line-height: 15px;
     opacity: 0.5;
-  }   
+  }
 `;
 
 export const Wrapper = styled.div<{ width?: string }>`
   position: relative;
   margin-bottom: 21px;
   ${Inner} {
-    width: ${({ width }) => width ? width : '218px'};
+    width: ${({ width }) => (width ? width : '218px')};
   }
 `;
 
@@ -36,5 +37,3 @@ export const Error = styled.small`
   color: red;
   font-size: 10px;
 `;
-
-

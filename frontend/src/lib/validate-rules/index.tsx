@@ -5,7 +5,7 @@ export const rules = {
     name: 'required',
     validator: (value) => ({
       isValid: Boolean(value),
-      errorText: 'Поле пустое',
+      errorText: 'Заполните поле',
     }),
   }),
   email: (): Rule<string> => ({
@@ -26,28 +26,14 @@ export const rules = {
     name: 'minLength',
     validator: (value) => ({
       isValid: value.length >= min,
-      errorText: `Ввведите еще ${value.length - min} символов`,
+      errorText: `Ввведите еще ${min - value.length} символов`,
     }),
   }),
   maxLength: (max: number): Rule<string> => ({
     name: 'maxLength',
     validator: (value) => ({
       isValid: value.length <= max,
-      errorText: `Уберите ${max - value.length} символов`,
-    }),
-  }),
-  minDigits: (min: number): Rule<number> => ({
-    name: 'minDigits',
-    validator: (value) => ({
-      isValid: String(value).length >= min,
-      errorText: `Ввведите еще ${String(value).length - min} символов`,
-    }),
-  }),
-  maxDigits: (max: number): Rule<number> => ({
-    name: 'maxDigits',
-    validator: (value) => ({
-      isValid: String(value).length <= max,
-      errorText: `Уберите ${max - String(value).length} символов`,
+      errorText: `Уберите ${value.length - max} символов`,
     }),
   }),
 };
