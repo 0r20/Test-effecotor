@@ -1,4 +1,4 @@
-import { IUser } from './../utils/types/user';
+import { IUser } from '../utils/types/user';
 import app from "./app";
 
 export const $users = app.createStore<IUser[]>([

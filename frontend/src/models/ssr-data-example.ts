@@ -1,5 +1,5 @@
-import { userApi } from "@/api/user";
-import { createFetching, Fetching } from "@/lib/fetching";
+import { userApi } from "@/src/api/user";
+import { createFetching, Fetching } from "@/src/lib/fetching";
 import { Effect, forward } from "effector";
 import app from "./app";
 

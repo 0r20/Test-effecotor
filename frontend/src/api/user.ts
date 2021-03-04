@@ -4,7 +4,7 @@ import Cookie from 'js-cookie';
 
 import { ParsedUrlQuery } from 'querystring';
 import { GetServerSidePropsContext } from 'next';
-import { IUser } from "@/utils/types/user";
+import { IUser } from "@/src/utils/types/user";
 
 type Method = "GET" | "POST" | "PATCH" | "PUT" | "DELETE";
 

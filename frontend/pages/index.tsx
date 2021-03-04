@@ -5,8 +5,8 @@ import {
   addUser,
   usersFetching,
   pageMounted,
-} from '@/models/ssr-data-example';
-import appDomain from '@/models/app';
+} from '@/src/models/ssr-data-example';
+import appDomain from '@/src/models/app';
 import { useEffect } from 'react';
 import styled from '@emotion/styled';
 

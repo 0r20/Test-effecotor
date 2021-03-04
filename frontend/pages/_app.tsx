@@ -2,11 +2,11 @@ import nprogress from 'nprogress/nprogress.css';
 import Router from 'next/router';
 import NProgress from 'nprogress';
 import { Provider as EffectorProvider } from 'effector-react/ssr';
-import app from '@/models/app';
+import app from '@/src/models/app';
 import React from 'react';
 import Head from 'next/head';
 import { AppProps } from 'next/app';
-import { useLogger, useScope } from '@/lib/effector-setup';
+import { useLogger, useScope } from '@/src/lib/effector-setup';
 import { Global } from '@emotion/react';
 import { globalStyles } from '@/globalStyles';
 
