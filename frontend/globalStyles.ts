@@ -3,9 +3,13 @@ import emotionReset from 'emotion-reset';
 
 export const globalStyles = css`
   ${emotionReset}
+
+  * {
+    box-sizing: border-box;
+  }
   
   body {
-    font-family: "Alegreya Sans", "Open Sans", sans-serif;
+    font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
     overflow: hidden;
     -webkit-font-smoothing: antialiased;
     display: flex;
